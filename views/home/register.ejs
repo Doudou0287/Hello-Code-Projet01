@@ -1,0 +1,44 @@
+<%- include('../partials/header') -%>
+<body>
+    <div class="ui inverted menu">
+        <a href="/" class="active item">
+            <i class="home icon"></i> Home
+        </a>
+
+        <div class="right menu">
+            <div class="item">
+                <i class="lightbulb outline icon"></i> Not Logged In
+          </div>
+        </div>
+        
+    </div>
+    <div class="ui one column page grid">
+        <div class="column twelve wide">
+            <form action="/signup" method="POST" class="ui large form">
+                <div class="ui stacked segment">
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="user icon"></i>
+                            <input type="text" name="name" placeholder="Nom">
+                        </div>
+                    </div>
+                    
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="user icon"></i>
+                            <input type="text" name="email" placeholder="E-mail address">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="lock icon"></i>
+                            <input type="password" name="password" placeholder="Password">
+                        </div>
+                    </div>
+                    <button type="submit" class="ui fluid large teal submit button">Login</button>
+                </div>
+                <div class="ui error message"></div>
+            </form>
+        </div>
+    </div>
+    <%- include('../partials/footer') -%>
