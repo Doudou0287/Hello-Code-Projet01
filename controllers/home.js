@@ -2,12 +2,6 @@ import User from "../Models/User";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-// export const index = (req, res) => {
-//   let userId = req.session.userId 
-
-//   res.render('home/index', { posts: [] });
-// };
-
 export const login = (req, res) => {
   const { error } = req.query; // Get the error parameter from the query string
   res.render('home/login', { error }); // Pass the error variable to the login view

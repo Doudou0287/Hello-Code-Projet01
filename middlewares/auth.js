@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import User from "../Models/User";
-
+import { formatDate,checkToken } from "../utils/utils.js";
 import dotenv from 'dotenv';
 dotenv.config();
 const { SESSION_SECRET } = process.env;
@@ -51,4 +51,25 @@ export const existUser = async (req, res, next) => {
     console.log(error);
     res.redirect("/");
   }
+};
+
+export const isAdmin = async (req, res, next) => {
+  console.log('isAdmin starting')
+  const token = req.session.token;
+  let userRole = checkToken(token)
+  try {
+    // Check if the user isAdmin
+    if(userRole === "admin") {
+      console.log('isAdmin passing')
+      next();
+    } 
+    else {
+      console.log('isAdmin not passing, hence redirecting')
+      res.redirect("/");
+    }
+  } catch (error) {
+    console.log(error);
+    res.redirect("/");
+  }
+  return userRole === "admin" ? true : false
 };

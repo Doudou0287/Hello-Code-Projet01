@@ -1,7 +1,7 @@
 <%- include('../partials/header') -%>
 
 <body>
-  <div class="ui inverted menu">
+  <div class="ui inverted menu stackable">
     <a href="/" class="active item">
       <i class="home icon"></i> Accueil
     </a>
@@ -10,6 +10,9 @@
     <!-- menu that shows only for the admin -->
     <a href="/users" class="item">
       <i class="user icon"></i> Utilisateurs
+    </a>
+    <a href="/articles/create" class="item">
+      <i class="plus icon"></i> Créer un nouvel article
     </a>
     <% } %>
     

@@ -1,29 +1,33 @@
 <%- include('../partials/header') -%>
 
 <body>
-  <div class="ui inverted menu">
-    <a href="/" class="item">
-      <i class="home icon"></i> Accueil
-    </a>
-  
-    <% if (userRole && userRole === "admin") { %>
-    <!-- menu that shows only for the admin -->
-    <a href="/users" class="active item">
-      <i class="user icon"></i> Utilisateurs
-    </a>
-    <% } %>
+    <div class="ui inverted menu stackable">
+        <a href="/" class="item">
+          <i class="home icon"></i> Accueil
+        </a>
     
-    <!-- Notification icon indicating the user is logged in -->
-    <div class="right menu">
-      <div class="item">
-        <i class="lightbulb lit icon"></i> Connecté
-      </div>
-      <!-- Option to log out -->
-      <a href="/logout" class="item">
-        <i class="lock icon"></i> Déconnexion
-      </a>
+        <!-- menu that shows only for the admin -->
+        <a href="/users" class="active item">
+          <i class="user icon"></i> Utilisateurs
+        </a>
+
+        <a href="/articles/create" class="item">
+          <i class="plus icon"></i> Créer un nouvel article
+        </a>
+        
+      
+        <!-- Notification icon indicating the user is logged in -->
+        <div class="right menu">
+          <div class="item">
+            <i class="lightbulb lit icon"></i> Connecté
+          </div>
+          <!-- Option to log out -->
+          <a href="/logout" class="item">
+            <i class="lock icon"></i> Déconnexion
+          </a>
+        </div>
     </div>
-  </div>
+      
 
   <div class="ui segment">
     <h2 class="ui header">Liste des utilisateurs</h2>
@@ -43,7 +47,7 @@
             <td><%= user.email %></td>
             <td>
               <% if (user.role) { %>
-                <div class="ui green label">Admin</div>
+                <div class="ui green label">👤 Admin</div>
               <% } else { %>
                 <div class="ui grey label">User</div>
               <% } %>

@@ -1,6 +1,6 @@
 import Article from "../Models/Article";
-// import jwt from "jsonwebtoken";
 import { formatDate,checkToken } from "../utils/utils.js";
+
 export const index = async (req, res) => {
     try {
         let tag
@@ -11,7 +11,7 @@ export const index = async (req, res) => {
         const tableSize = await Article.countDocuments();
     
         // render the articles page with articles passing to the front end
-        res.render('home/index', { articles, userRole, tag, tableSize, formatDate});
+        res.render('articles/allArticles', { articles, userRole, tag, tableSize, formatDate});
     } catch (error) {
         // Handle errors and send an error response if necessary
         console.error('Error fetching articles:', error);
@@ -35,7 +35,7 @@ export const loadMoreArticles = async (req, res) => {
         const articles = await Article.find({}).skip(skip).limit(itemsPerPage);
 
         // Send the articles as a JSON response
-        res.render('home/index', { articles, userRole,tag, tableSize, formatDate })
+        res.render('articles/allArticles', { articles, userRole,tag, tableSize, formatDate })
     } catch (error) {
         // Handle errors and send an error response if necessary
         console.error('Error fetching next articles:', error);
@@ -54,7 +54,7 @@ export const getCategoryArticles = async (req, res) => {
 
         const articles = await Article.find({ tags: tag });
         
-        res.render('home/index', { articles, userRole , tag, tableSize, formatDate })
+        res.render('articles/allArticles', { articles, userRole , tag, tableSize, formatDate })
     } catch (error) {
         console.error('Error fetching articles by tag:', error);
         res.status(500).json({ error: 'Internal server error' });
@@ -76,10 +76,49 @@ export const getSingleArticle = async (req, res) => {
         }
 
         // Render the article page template with article data
-        res.render('home/singleArticle', { article, formatDate, userRole });
+        res.render('articles/singleArticle', { article, formatDate, userRole });
     } catch (error) {
         // Handle any errors that may occur during the database query
         console.error('Error fetching article:', error);
         res.status(500).send('Internal server error');
     }
 }
+
+export const renderArticleForm = (req, res) => {
+    const token = req.session.token;
+    let userRole = checkToken(token)
+    res.render('articles/createArticle', { userRole }); // You may need to create a view for the article creation form
+};
+
+export const createArticle = async (req, res) => {
+    const { title, summary, content, tags, hasQCM } = req.body;
+    const token = req.session.token;
+    const userRole = checkToken(token); // Assuming you have a function to check the user's role
+  
+    try {
+      // Check if the user has permission to create an article (e.g., only admins can create)
+      if (userRole !== 'admin') {
+        return res.status(403).send('Permission denied');
+      }
+      const tagsArray = tags.split(',').map(tag => tag.trim());
+      // Create a new article based on the submitted data
+      const article = new Article({
+        title,
+        summary,
+        content,
+        tags: tagsArray,
+        hasQCM,
+      });
+  
+      // Save the new article to the database
+      await article.save();
+  
+      // Redirect to the newly created article's page or to the articles list
+      res.redirect(`/articles/${article._id}`);
+    } catch (error) {
+      // Handle any errors that may occur during article creation
+      console.error('Error creating article:', error);
+      res.status(500).send('Internal server error');
+    }
+  };
+  

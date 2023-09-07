@@ -1,0 +1,116 @@
+<%- include('../partials/header') -%>
+<style> 
+  #article-segment {
+    margin: 0 auto; /* Center the article on the page */
+    padding: 20px; /* Add some padding for spacing */
+    font-size: 16px; /* Set the font size for the content */
+    line-height: 1.5; /* Set the line height for readability */
+    text-align: justify; /* Justify the text for a clean look */
+  }
+
+  #article-segment p {
+    margin-bottom: 20px; /* Add space between paragraphs */
+  }
+
+</style>
+<body>
+  <div class="ui inverted menu stackable">
+    <a href="/" class="active item">
+      <i class="home icon"></i> Accueil
+    </a>
+        
+    <% if (userRole && userRole === "admin") { %>
+      <!-- menu that shows only for the admin -->
+      <a href="/users" class="item">
+        <i class="user icon"></i> Utilisateurs
+      </a>
+
+      <a href="/articles/create" class="item">
+        <i class="plus icon"></i> Créer un nouvel article
+      </a>
+    <% } %>
+
+
+    <div class="right menu">
+      <div class="item">
+        <i class="lightbulb lit icon"></i> Connecté
+      </div>
+      <!-- Option to log out -->
+      <a href="/logout" class="item">
+        <i class="lock icon"></i> Déconnexion
+      </a>
+    </div>
+  </div>
+  <div class="ui one column page grid">
+    <div class="ui container column fourteen wide">
+      
+      <div class="ui segment">
+        <h1><%= article.title %></h1>
+        
+      </div>
+      <div class="ui segment" id="article-segment">
+        <p><%= article.content %></p>
+      </div>
+    
+    </div>
+      <div class="ui two wide column center aligned" style="height: 100vh;">
+        <div class="ui vertical menu">
+
+          <h3 class="ui segment header">Tags</h3>
+          <div class="ui segment">
+            <% article.tags.forEach((tag) => { %>
+              <a class="ui label random-color-label" style="margin: 5px 10px;" href="/articles/category/<%= tag %>" ><%= tag %></a>
+            <% }); %>
+          </div>
+
+          <h3 class="ui segment header">Dates</h3>
+          <div class="ui segment">
+            <p>Date de publication : <%= formatDate(article.publishedDate) %></p>
+            <p>Dernière modification : <%= formatDate(article.lastModifiedDate) %></p>
+
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function () {
+        // Get the content text
+        var content = $("#article-segment p").text();
+        
+        // Split the content into paragraphs based on double line breaks
+        var paragraphs = content.split("\n\n");
+        
+        // Clear the existing content
+        $("#article-segment p").remove();
+        
+        // Add each paragraph as a new <p> element
+        paragraphs.forEach(function (paragraph) {
+            $("#article-segment").append("<p>" + paragraph.trim() + "</p>");
+        });
+    });
+    </script>
+    
+    <script>
+      $(document).ready(function () {
+      // Function to generate a random transparent color
+      function getRandomTransparentColor() {
+        var r = Math.floor(Math.random() * 256); // Random red channel value (0-255)
+        var g = Math.floor(Math.random() * 256); // Random green channel value (0-255)
+        var b = Math.floor(Math.random() * 256); // Random blue channel value (0-255)
+        var alpha = 0.3; // Random alpha (opacity) value between 0 and 1
+
+        return `rgba(${r},${g},${b},${alpha})`;
+      }
+
+      // Apply a random transparent background color to each element with class "random-color-label"
+      $(".random-color-label").each(function () {
+        $(this).css("background-color", getRandomTransparentColor());
+      });
+    });
+
+    </script>
+        
+</body>
+</html>
