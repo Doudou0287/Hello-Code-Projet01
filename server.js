@@ -1,7 +1,7 @@
 import express from "express";
 import route from "./routes/routes";
 import routeArticles from "./routes/routeArticles";
-
+import routeUser from "./routes/routeUsers";
 import dotenv from 'dotenv';
 import session from "express-session";
 import mongoose from "mongoose";
@@ -26,7 +26,7 @@ app.set('view engine', 'ejs');
 
 app.use('/', route);
 app.use('/articles', routeArticles);
-
+app.use('/users', routeUser);
 app.listen(port, () => {
   console.log(`Example app listening at http://${hostname}:${port}`);
 });

@@ -16,6 +16,11 @@ const UserShema = new Schema({
     type: String,
     required: true,
   },
+
+  role: {
+    type: String,
+    required: false,
+  },
 });
 
  const UserModel = model('user', UserShema);

@@ -2,17 +2,17 @@
 <body>
     <div class="ui inverted menu">
         <a href="/" class="active item">
-            <i class="home icon"></i> Home
+            <i class="home icon"></i> Accueil
         </a>
 
         <div class="right menu">
             <div class="item">
-                <i class="lightbulb outline icon"></i> Not Logged In
+                <i class="lightbulb outline icon"></i> Non connecté
           </div>
         </div>
     </div>
     <div class="ui one column page grid">
-        <div class="column twelve wide">
+        <div class="column sixteen wide">
             <form action="/verify" method="POST" class="ui large form">
                 <div class="ui stacked segment">
                     <div class="field">
@@ -27,11 +27,11 @@
                             <input type="password" name="password" placeholder="Password">
                         </div>
                     </div>
-                    <button type="submit" class="ui fluid large teal submit button">Login</button>
+                    <button type="submit" class="ui fluid large teal submit button">Connexion</button>
 
                     <div class="ui message">
-                        or <a href="/signup" class="teal">Sign Up</a>
-                      </div>
+                        or <a href="/signup" class="teal">S'inscrire</a>
+                    </div>
                 </div>
                 <% if (error) { %>
                     <div class="ui error message"><%= error %></div>
