@@ -52,6 +52,16 @@
       </div>
       <div class="ui segment" id="article-segment">
         <p><%= article.content %></p>
+
+        <% if (article.photos && article.photos.length > 0) { %>
+          <!-- Check if photos exist -->
+          <div id="photo-section">
+            <% article.photos.forEach(function (photo) { %>
+              <img src="/images/<%= photo %>" height="100%" width="100%" alt="<%= photo %>">
+            <% }); %>
+          </div>
+        <% } %>
+
       </div>
     
     </div>

@@ -27,7 +27,9 @@ const articleSchema = new Schema({
     hasQCM:{
         type: Boolean,
         default: false
-    } 
+    } ,
+
+    photos: [String],
 });
 
 const Article = model('Article', articleSchema);

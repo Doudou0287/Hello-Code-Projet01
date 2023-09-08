@@ -32,7 +32,7 @@
         <div class="column sixteen wide">
             <h1>Mettre à jour l'article</h1>
     
-            <form action="/articles/<%= article._id %>/edit" method="POST" class="ui large form">
+            <form action="/articles/<%= article._id %>/edit" method="POST" class="ui large form" enctype="multipart/form-data">
                 <div class="ui stacked segment">
                     <div class="field">
                         <label for="title"><i class="file alternate outline icon"></i> Titre:</label>
@@ -58,7 +58,12 @@
                         <label for="hasQCM"><i class="question icon"></i>Dispose d'un QCM</label>
                         <input type="checkbox" id="hasQCM" name="hasQCM" <% if (article.hasQCM) { %>checked<% } %>>
                     </div>
-    
+
+                    <div class="field">
+                        <label for="photos"><i class="camera icon"></i>change Photo</label>
+                        <input type="file" id="photos" name="photos" accept="image/*" multiple>
+                    </div>
+
                     <button class="ui fluid large teal submit button" type="submit">Update Article</button>
                 </div>
                 
