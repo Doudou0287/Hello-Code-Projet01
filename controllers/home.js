@@ -2,6 +2,27 @@ import User from "../Models/User";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
+export const index = (req, res) => {
+  const token = req.session.token;
+  let userId
+  let userRole
+    // Verify and decode the token (assuming you used the same SECRET)
+  if(token){
+    jwt.verify(token, process.env.SESSION_SECRET, (err, decoded) => {
+      if (err) {
+      console.error('Error verifying token:', err);
+      // Handle the error if necessary
+      } else {
+        userId = decoded.userId;
+        userRole = decoded.userRole
+        console.log(decoded)
+      }
+    })
+  }
+  // if()   
+  res.render('home/index', { userId, userRole });
+};
+
 export const login = (req, res) => {
   const { error } = req.query; // Get the error parameter from the query string
   res.render('home/login', { error }); // Pass the error variable to the login view
@@ -17,18 +38,18 @@ export const signup = async (req, res) => {
   // console.log(req.body);
   try {
 
-      // Create a new user
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const newUser = new User({ name, email, password:hashedPassword });
-      await newUser.save();
-      // console.log("data inserted to bdd")
-      const token = jwt.sign({ userId: newUser._id }, process.env.SESSION_SECRET);
-      // console.log("data saved in token")
-      // Store the user ID in the session
-      req.session.userId = newUser._id;
-      req.session.token = token;
-      // console.log("user doesn't exist");
-      res.redirect("/login");
+    // Create a new user
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ name, email, password:hashedPassword });
+    await newUser.save();
+    // console.log("data inserted to bdd")
+    const token = jwt.sign({ userId: newUser._id }, process.env.SESSION_SECRET);
+    // console.log("data saved in token")
+    // Store the user ID in the session
+    req.session.userId = newUser._id;
+    req.session.token = token;
+    // console.log("user doesn't exist");
+    res.redirect("/login");
     
   } catch (error) {
     console.log(error);

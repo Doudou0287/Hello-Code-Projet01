@@ -1,44 +1,51 @@
 <%- include('../partials/header') -%>
-<body>
-    <div class="ui inverted menu stackable">
-        <a href="/" class="active item">
-            <i class="home icon"></i> Accueil
-        </a>
+<body class="pushable">
+    <div class="pusher">
 
-        <div class="right menu">
-            <div class="item">
-                <i class="lightbulb outline icon"></i> Non connecté
-          </div>
+        <div class="ui inverted pointing menu stackable">
+            <a href="/" class="active item">
+                <i class="home icon"></i> Accueil
+            </a>
+
+            <div class="right menu">
+                <div class="item">
+                    <i class="lightbulb outline icon"></i> Non connecté
+            </div>
+            </div>
         </div>
-    </div>
-    <div class="ui one column page grid">
-        <div class="column sixteen wide">
-            <form action="/verify" method="POST" class="ui large form">
-                <div class="ui stacked segment">
-                    <div class="field">
-                        <div class="ui left icon input">
-                            <i class="user icon"></i>
-                            <input type="text" name="email" placeholder="E-mail address">
+    
+    
+    
+        <div class="ui one column page grid" style="height: 100vh; margin-top: 3%; " >
+            <div class="column sixteen wide">
+                <form action="/verify" method="POST" class="ui large form">
+                    <div class="ui stacked segment">
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="user icon"></i>
+                                <input type="text" name="email" placeholder="E-mail address">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input type="password" name="password" placeholder="Password">
+                            </div>
+                        </div>
+                        <button type="submit" class="ui fluid large teal submit button">Connexion</button>
+
+                        <div class="ui message"  >
+                            ou <a href="/signup" class="teal"> s'inscrire ici</a>
                         </div>
                     </div>
-                    <div class="field">
-                        <div class="ui left icon input">
-                            <i class="lock icon"></i>
-                            <input type="password" name="password" placeholder="Password">
-                        </div>
-                    </div>
-                    <button type="submit" class="ui fluid large teal submit button">Connexion</button>
+                    <% if (error) { %>
+                        <div class="ui error message"><%= error %></div>
+                    <% } %>
+                    
+                </form>
 
-                    <div class="ui message">
-                        or <a href="/signup" class="teal">S'inscrire</a>
-                    </div>
-                </div>
-                <% if (error) { %>
-                    <div class="ui error message"><%= error %></div>
-                <% } %>
-                
-            </form>
-
+            </div>
         </div>
+        
     </div>
 <%- include('../partials/footer') -%>

@@ -1,7 +1,7 @@
 import Article from "../Models/Article";
 import { formatDate,checkToken } from "../utils/utils.js";
 
-export const index = async (req, res) => {
+export const listeArticle = async (req, res) => {
     try {
         let tag
         const token = req.session.token;
@@ -120,5 +120,89 @@ export const createArticle = async (req, res) => {
       console.error('Error creating article:', error);
       res.status(500).send('Internal server error');
     }
-  };
-  
+};
+
+export const renderUpdateArticleForm = async (req, res) => {
+    const articleId = req.params.id.toString();
+    const token = req.session.token;
+    let userRole = checkToken(token);
+
+    try {
+        // Find the article by ID using findById
+        const article = await Article.findById(articleId);
+
+        if (!article) {
+            // Handle article not found
+            return res.status(404).send('Article not found');
+        }
+
+        // Render the update article form with pre-filled data
+        res.render('articles/editArticle', { article, userRole });
+    } catch (error) {
+        // Handle any errors that may occur during the database query
+        console.error('Error rendering update form:', error);
+        res.status(500).send('Internal server error');
+    }
+}
+
+export const updateArticle = async (req, res) => {
+    const articleId = req.params.id.toString();
+    let qcm
+    const { title, summary, content, tags, hasQCM } = req.body;
+    console.log('------------------------', hasQCM)
+    if(hasQCM === "on"){
+        qcm = true
+    }else{
+        qcm = false
+    }
+    const tagsArray = tags.split(',').map(tag => tag.trim());
+    try {
+        // Find the article by ID using findByIdAndUpdate
+        const article = await Article.findByIdAndUpdate(
+            articleId,
+            {
+                title,
+                summary,
+                content,
+                tags: tagsArray,
+                hasQCM: qcm,
+                lastModifiedDate: Date.now(),
+            },
+            { new: true } // Return the updated article
+        );
+
+        if (!article) {
+            // Handle article not found
+            return res.status(404).send('Article not found');
+        }
+
+        // Redirect to the updated article page or wherever you want
+        res.redirect(`/articles/${articleId}`);
+    } catch (error) {
+        // Handle any errors that may occur during the database update
+        console.error('Error updating article:', error);
+        res.status(500).send('Internal server error');
+    }
+}
+
+
+export const deleteArticle = async (req, res) => {
+    const articleId = req.params.id.toString();
+
+    try {
+        // Find the article by ID using findByIdAndRemove
+        const article = await Article.findByIdAndRemove(articleId);
+
+        if (!article) {
+            // Handle article not found
+            return res.status(404).send('Article not found');
+        }
+
+        // Redirect to a page or route after successful deletion
+        res.redirect('/articles'); // You can specify a different route if needed
+    } catch (error) {
+        // Handle any errors that may occur during the database delete operation
+        console.error('Error deleting article:', error);
+        res.status(500).send('Internal server error');
+    }
+}

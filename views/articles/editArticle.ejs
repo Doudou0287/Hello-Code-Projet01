@@ -4,17 +4,16 @@
       <a href="/" class="item">
         <i class="home icon"></i> Accueil
       </a>
-
+    
       <a href="/articles" class=" item">
         <i class="file alternate icon"></i> Articles
       </a>
-    
       <!-- menu that shows only for the admin -->
       <a href="/users" class="item">
         <i class="user icon"></i> Utilisateurs
       </a>
       
-      <a href="/articles/create" class="active item">
+      <a href="/articles/create" class="item">
         <i class="plus icon"></i> Créer un nouvel article
       </a>
       <!-- Notification icon indicating the user is logged in -->
@@ -28,37 +27,43 @@
         </a>
       </div>
     </div>
+
     <div class="ui one column page grid">
         <div class="column sixteen wide">
-            <h1>Nouvel article</h1>
-            <form method="POST" action="/articles/create" class="ui large form">
+            <h1>Mettre à jour l'article</h1>
+    
+            <form action="/articles/<%= article._id %>/edit" method="POST" class="ui large form">
                 <div class="ui stacked segment">
+                    <div class="field">
+                        <label for="title"><i class="file alternate outline icon"></i> Titre:</label>
+                        <input type="text" id="title" name="title" value="<%= article.title %>">
+                    </div>
 
                     <div class="field">
-                        <label for="title"> <i class="file alternate outline icon"></i>Titre</label>
-                        <input type="text" id="title" name="title" required>
+                        <label for="summary"><i class="pencil icon"></i> Résumé:</label>
+                        <input type="text" id="summary" name="summary" value="<%= article.summary %>">
                     </div>
+                    
                     <div class="field">
-                        <label for="summary"> <i class="pencil icon"></i> Résumé</label>
-                        <textarea id="summary" name="summary" required></textarea>
+                        <label for="content"><i class="file text outline icon"></i>  Contenu:</label>
+                        <textarea id="content" name="content"><%= article.content %></textarea>
                     </div>
+    
                     <div class="field">
-                        <label for="content"><i class="file text outline icon"></i> Contenu</label>
-                        <textarea id="content" name="content" required></textarea>
+                        <label for="tags"><i class="tags icon"></i> Tags (séparés par des virgules):</label>
+                        <input type="text" id="tags" name="tags" value="<%= article.tags.join(', ') %>">
                     </div>
-                    <div class="field">
-                        <label for="tags"><i class="tags icon"></i> Tags (séparés par des virgules)</label>
-                        <input type="text" id="tags" name="tags" placeholder="crime,mystery">
-                    </div>
+    
                     <div class="field">
                         <label for="hasQCM"><i class="question icon"></i>Dispose d'un QCM</label>
-                        <input type="checkbox" id="hasQCM" name="hasQCM">
+                        <input type="checkbox" id="hasQCM" name="hasQCM" <% if (article.hasQCM) { %>checked<% } %>>
                     </div>
-                    <button class="ui fluid large teal submit button" type="submit">Créer un article</button>
+    
+                    <button class="ui fluid large teal submit button" type="submit">Update Article</button>
                 </div>
+                
             </form>
         </div>
-        
     </div>
-
-    <%- include('../partials/footer') -%>
+</body>
+</html>

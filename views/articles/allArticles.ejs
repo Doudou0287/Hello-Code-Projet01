@@ -1,87 +1,92 @@
 <%- include('../partials/header') -%>
 
-<body>
-  <div class="ui inverted menu stackable">
-    <a href="/" class="active item">
-      <i class="home icon"></i> Accueil
-    </a>
-  
-    <% if (userRole && userRole === "admin") { %>
-    <!-- menu that shows only for the admin -->
-    <a href="/users" class="item">
-      <i class="user icon"></i> Utilisateurs
-    </a>
-    <a href="/articles/create" class="item">
-      <i class="plus icon"></i> Créer un nouvel article
-    </a>
-    <% } %>
-    
-    <!-- Notification icon indicating the user is logged in -->
-    <div class="right menu">
-      <div class="item">
-        <i class="lightbulb lit icon"></i> Connecté
-      </div>
-      <!-- Option to log out -->
-      <a href="/logout" class="item">
-        <i class="lock icon"></i> Déconnexion
-      </a>
-    </div>
-  </div>
-  
+<body class="pushable">
+  <div class="pusher">
 
-  <div class="ui container center aligned">
-    <% if (tag) { %>
-      <h1>Tous les articles en <%=tag%></h1>
-    <% } else { %>
-      <h1>Tous les articles</h1>
-    <% } %>
-    <div class="ui stackable column grid">
-      <div class="column">
-        <% articles.forEach((article, index) => { %>
-          <div class="ui fluid raised segment card" style="height: 220px;">
-            <div class="content">
-              <a class="header" href="/articles/<%= article._id %>"><%= article.title %></a>
-              <div class="meta">
-                <span class="date">Date de publication : <%= formatDate(article.publishedDate) %></span> <br/>
-                <span class="date">Dernière modification : <%= formatDate(article.lastModifiedDate) %></span>
-              </div>
-              <div class="description">
-                <p><%= article.summary %></p>
-              </div>
-            </div>
-            <div class="extra content">
-              <span class="tags">
-                Tags: 
-                <% article.tags.forEach((tag, index) => { %>
-                  <a class="ui label" href="/articles/category/<%= tag %>"><%= tag %></a><%= index < article.tags.length - 1 ? ', ' : '' %>
-                <% }); %>
-              </span> 
-              <br/>
-              <span class="qcm">
-                QCM: <%= article.hasQCM ? "Oui" : "Non" %>
-              </span>
-            </div>
-          </div>
-        <% }); %>
+    <div class="ui inverted pointing menu stackable">
+      <a href="/" class="item">
+        <i class="home icon"></i> Accueil
+      </a>
+    
+      <a href="/articles" class="active item">
+        <i class="file alternate icon"></i> Articles
+      </a>
+      <% if (userRole && userRole === "admin") { %>
+        <!-- menu that shows only for the admin -->
+        <a href="/users" class="item">
+          <i class="user icon"></i> Utilisateurs
+        </a>
+        <a href="/articles/create" class="item">
+          <i class="plus icon"></i> Créer un nouvel article
+        </a>
+      <% } %>
+      
+      <!-- Notification icon indicating the user is logged in -->
+      <div class="right menu">
+        <div class="item">
+          <i class="lightbulb lit icon"></i> Connecté
+        </div>
+        <!-- Option to log out -->
+        <a href="/logout" class="item">
+          <i class="lock icon"></i> Déconnexion
+        </a>
       </div>
     </div>
-   
-  
-    <% if (tableSize && tableSize > 10) { %>
-           
-      <div class="ui pagination menu">
-        <% const itemsPerPage = 10; %>
-        <% const totalPages = Math.ceil(tableSize / itemsPerPage); %>
-        <% for (let page = 1; page <= totalPages; page++) { %>
-          <a href="/articles/load-more/<%= page - 1 %>" class="item"><%= page %></a>
-        <% } %>
-        
+      
+    
+    <div class="ui container center aligned">
+      <% if (tag) { %>
+        <h1>Tous les articles en <%=tag%></h1>
+      <% } else { %>
+        <h1>Tous les articles</h1>
+      <% } %>
+      <div class="ui stackable column grid">
+        <div class="column">
+          <% articles.forEach((article, index) => { %>
+            <div class="ui fluid raised segment card" style="height: 220px; background-color: rgba(200, 207, 255, 0.404);">
+              <div class="content">
+                <a class="header" href="/articles/<%= article._id %>"><%= article.title %></a>
+                <div class="meta">
+                  <span class="date">Date de publication : <%= formatDate(article.publishedDate) %></span> <br/>
+                  <span class="date">Dernière modification : <%= formatDate(article.lastModifiedDate) %></span>
+                </div>
+                <div class="description">
+                  <p><%= article.summary %></p>
+                </div>
+              </div>
+              <div class="extra content">
+                <span class="tags">
+                  Tags: 
+                  <% article.tags.forEach((tag, index) => { %>
+                    <a class="ui label" href="/articles/category/<%= tag %>"><%= tag %></a><%= index < article.tags.length - 1 ? ', ' : '' %>
+                  <% }); %>
+                </span> 
+                <br/>
+                <span class="qcm">
+                  QCM: <%= article.hasQCM ? "Oui" : "Non" %>
+                </span>
+              </div>
+            </div>
+          <% }); %>
+        </div>
       </div>
       
-    <% } %>
-    <br/>
-  </div>
-
+    
+      <% if (tableSize && tableSize > 10) { %>
+              
+        <div class="ui pagination menu">
+          <% const itemsPerPage = 10; %>
+          <% const totalPages = Math.ceil(tableSize / itemsPerPage); %>
+          <% for (let page = 1; page <= totalPages; page++) { %>
+            <a href="/articles/load-more/<%= page - 1 %>" class="item"><%= page %></a>
+          <% } %>
+          
+        </div>
+        
+      <% } %>
+      <br/>
+    </div>
+  </div>    
   
 
 <%- include('../partials/footer') -%>

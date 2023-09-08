@@ -1,11 +1,11 @@
 import express from "express";
-import { signup, login, verify, logout, getSignup} from "../controllers/home";
+import { index, signup, login, verify, logout, getSignup} from "../controllers/home";
 import {existUser, authenticateUser} from "../middlewares/auth.js"
-import { index } from "../controllers/articles.js";
+// import { index } from "../controllers/articles.js";
 const router = express.Router();
 
 // Root route
-router.get("/", authenticateUser, index);
+router.get("/", index);
 router.get("/login", login);
 router.get("/signup", getSignup);
 router.post("/signup",existUser, signup);

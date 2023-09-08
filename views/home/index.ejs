@@ -1,0 +1,77 @@
+<%- include('../partials/header') -%>
+<body class="pushable">
+    <div class="pusher">
+
+        <div class="ui inverted pointing menu">
+            <a href="/" class="active item">
+            <i class="home icon"></i> Accueil
+            </a>
+            <% if (userId) { %>
+                <a href="/articles" class=" item">
+                    <i class="file alternate icon"></i> Articles
+                </a>
+                <% if (userRole && userRole === "admin") { %>
+                    <!-- menu that shows only for the admin -->
+                    <a href="/users" class="item">
+                        <i class="user icon"></i> Utilisateurs
+                    </a>
+                    
+                    <a href="/articles/create" class="item">
+                        <i class="plus icon"></i> Créer un nouvel article
+                    </a>
+                <% }  %>
+                <!-- Notification icon indicating the user is logged in -->
+                <div class="right menu">
+                    <div class="item">
+                    <i class="lightbulb lit icon"></i> Connecté
+                </div>
+                <!-- Option to log out -->
+                <a href="/logout" class="item">
+                    <i class="lock icon"></i> Déconnexion
+                    </a>
+                </div>
+
+            <% } else {  %>
+        
+                <div class="right menu">
+                    <div class="item">
+                        <i class="lightbulb outline icon"></i> Non connecté
+                    </div>
+                </div>
+            <% }  %>
+            
+        </div>
+
+            
+        
+        <div class="ui text container mt3" style="height: 100vh; margin-top: 3%;">
+            <h1 class="ui inverted header">
+                Bienvenue à Hello-Code
+            </h1>
+            <h2 style="margin-top: 5%;">
+                Engage your intellect and imbue it with the captivating essence of these technical articles.
+            </h2>
+            
+            <h3 style="margin-top: 5%;">
+                Hello-Code est votre destination unique pour des articles sur le développement d'applications web, l'analyse de données et plus encore.
+            </h3>
+
+            <h3 style="margin-top: 5%;">
+                Nous sommes passionnés par JavaScript, PHP, Python et les bases de données.
+            </h3>
+
+            <h3 style="margin-top: 5%;">
+                Grâce à notre plateforme, vous pouvez explorer un monde de connaissances et même tester vos compétences à l'aide de quiz.
+            </h3>
+                        
+            <% if (!userId) { %>
+                <div  style="margin-top: 13%;"><a class="ui huge primary button " href="/login">Commencer<i class="right arrow icon"></i></a> </div>
+            <% }  %>
+            
+        </div>
+        
+        
+    </div>
+    
+</body>
+</html>
